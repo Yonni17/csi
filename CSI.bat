@@ -1,5 +1,5 @@
 @echo off
-chcp 28591 > nul
+chcp 65001 > nul
 color 9F
 set /p ident=Nom de la machine ? ou ip ?
 echo %ident%|findstr /r "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"
@@ -46,9 +46,9 @@ goto menu
 cls
 echo Fermeture de Outlook
 taskkill /s %ip% /IM OUTLOOK.EXE
-goto menu
 ping localhost -n 1 >nul
 echo Démarrage de Outlook en mode sans échec
+ping localhost -n 1 >nul
 echo Merci de quitter l'application a la fin du lancement du profil utilisateur
 echo ! quand vous etes sur la page avec la liste des mails !
 "C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE" /safe

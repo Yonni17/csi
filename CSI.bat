@@ -14,12 +14,13 @@ echo                                PERNOD-RICARD
 echo ----------------------------------------------- 
 echo.
 echo  1 - Débogage de la stratégie de groupe
-echo  2 - Débogage de MS Outlook
+echo  2 - Arret du processus MS Outlook
 echo  3 - Rédémarage distant
 echo  4 - Débogage Tactile
 echo  5 - Ralonger mise en veille Win10
 echo  6 - Zscaler repair
 echo  7 - Log escalade ticket
+echo  8 - Lancer la Prise en main à distance
 echo.
 echo -----------------------------------------------
 ping localhost -n 2 >nul
@@ -32,6 +33,7 @@ if %choix% EQU 4 goto 4
 if %choix% EQU 5 goto 5
 if %choix% EQU 6 goto 6
 if %choix% EQU 7 goto 7
+if %choix% EQU 8 goto 8
 if %choix% EQU q goto 4
 if %choix% EQU Q goto 4
 :1
@@ -47,16 +49,6 @@ goto menu
 cls
 echo Fermeture de Outlook
 taskkill /s %ip% /IM OUTLOOK.EXE
-ping localhost -n 1 >nul
-echo Démarrage de Outlook en mode sans échec
-ping localhost -n 1 >nul
-echo Merci de quitter l'application a la fin du lancement du profil utilisateur
-echo ! quand vous etes sur la page avec la liste des mails !
-"C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE" /safe
-ping localhost -n 1 >nul
-echo Démarrage en mode normal
-"C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE"
-ping localhost -n 1 >nul
 goto menu
 :3
 shutdown -r -t 10 -m  \\%ip%
@@ -70,12 +62,14 @@ ping localhost -n 1 >nul
 echo --------------------------------------------------
 echo Changement du délai de veille Ordinateur à 20 min
 echo --------------------------------------------------
-REM REG ADD "\\%ident%\HKEY_USERS\S-1-5-21-3212575337-2465839514-940793929-%%%%%\Software\Policies\Microsoft\Windows\Control Panel\Desktop" /v ScreenSaveTimeOut /t REG_SZ /d 1200 /F
-for /f "tokens=5" %%i in ('REG QUERY "\\RICD00232\HKEY_USERS') do Set reg_ident=%%i
+for /F %%n in ('REG QUERY \\%ident%\HKEY_USERS'); do
+	REG QUERY "\\%ident%\%%n\Software\Policies\Microsoft\Windows\Control Panel\Desktop" /v ScreenSaveTimeOut
+	if NOT errorlevel 1; then REG ADD "\\%ident%\%%n\Software\Policies\Microsoft\Windows\Control Panel\Desktop" /v ScreenSaveTimeOut /t REG_SZ /d 1202 /F
+	fi
+REM for /F %%n in ('REG QUERY \\RICD00232\HKEY_USERS') do REG ADD "\\%ident%\%%n\Software\Policies\Microsoft\Windows\Control Panel\Desktop" /v ScreenSaveTimeOut /t REG_SZ /d 1201 /F
 REM for /f "tokens=5" %%a in ('REG QUERY "\\RICD00232\HKEY_USERS') do echo %%a
 REM set reg_ident=REG QUERY "\\%ident%\HKEY_USERS
 REM echo %reg_ident%
-pause
 ping localhost -n 1 >nul 
 goto menu
 :6
@@ -86,5 +80,10 @@ echo Observation du comportement du système effectué
 echo.
 goto menu
 pause
-:4
+:8
+echo -------------------------------------------
+echo Lancement de la prise en main à distance
+echo -------------------------------------------
+"C:\Program Files (x86)\CMRemoteToolsv3\CmRcViewer.exe" %ip%
+goto menu
 @exit

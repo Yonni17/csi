@@ -6,6 +6,7 @@ echo %ident%|findstr /r "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"
 if NOT errorlevel 1 GOTO menu 
 for /F "tokens=2 delims= " %%i in ('"nslookup %ident% | find "Address" | more /E +1"') do set ip=%%i
 echo IP: %ip%
+REM HKEY_LOCAL_MACHINE-->SOFTWARE-->SYSTEM-->ControlSet001-->services-->Tcpip-->Parameters-->NV Hostname
 :menu
 echo -----------------------------------------------
 echo   Gestionnaire de mise a jours CSI
@@ -61,6 +62,23 @@ goto menu
 shutdown -r -t 10 -m  \\%ip%
 goto menu
 :5
+echo --------------------------
+echo Changement de l'atribut 
+echo --------------------------
+REG ADD \\%ident%\HKLM\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\7bc4a2f9-d8fc-4469-b07b-33eb785aaca0 /v Attributes /t REG_DWORD /d 0x00000002 /f
+ping localhost -n 1 >nul
+echo --------------------------------------------------
+echo Changement du délai de veille Ordinateur à 20 min
+echo --------------------------------------------------
+REM REG ADD "\\%ident%\HKEY_USERS\S-1-5-21-3212575337-2465839514-940793929-%%%%%\Software\Policies\Microsoft\Windows\Control Panel\Desktop" /v ScreenSaveTimeOut /t REG_SZ /d 1200 /F
+for /f "tokens=5" %%i in ('REG QUERY "\\RICD00232\HKEY_USERS') do Set reg_ident=%%i
+REM for /f "tokens=5" %%a in ('REG QUERY "\\RICD00232\HKEY_USERS') do echo %%a
+REM set reg_ident=REG QUERY "\\%ident%\HKEY_USERS
+REM echo %reg_ident%
+pause
+ping localhost -n 1 >nul 
+goto menu
+:6
 cls
 runas /noprofile /user:RICARD\moreaut cmd
 powercfg -energy

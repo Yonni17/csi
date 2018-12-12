@@ -1,18 +1,25 @@
 @echo off
 chcp 65001 > nul
 color F0
+goto askuser
+:askuser
 set /p user=Merci de renseigner l'ip ou l'identifiant de la machine : 
 echo %user%|findstr /r "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"
 if NOT errorlevel 1 GOTO ip
 for /F "tokens=2 delims= " %%i in ('"nslookup %user% | find "Address" | more /E +1"') do set ip=%%i
+if ip EQU 0 GOTO failident ELSE (
 set ident=%user%
 goto menu
+)
 :ip
 set ip=%user%
 GOTO hostname
 :hostname
 for /F "tokens=3 delims= " %%n in ('REG QUERY "\\%user%\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\Tcpip\Parameters" /v Hostname') do set  ident=%%n
 goto menu
+:failident
+echo Veuillez vérifier votre saisie ...
+goto askuser
 :menu
 echo -----------------------------------------------
 echo ------ ip:%ip%  ident:%ident% -------
@@ -30,9 +37,8 @@ echo  4 - Ralonger mise en veille Win10
 echo  5 - Ouvrir fenetre c$
 echo  6 - Lancer la Prise en main à distance 
 echo  7 - Débogage Rforce
-echo  8 - Mappage UNC (KO)
 echo.
-echo  9 - Logs pour escalade
+echo  8 - Logs pour escalade
 echo -----------------------------------------------
 ping localhost -n 2 >nul
 echo.
@@ -45,7 +51,6 @@ if %choix% EQU 5 goto 5
 if %choix% EQU 6 goto 6
 if %choix% EQU 7 goto 7
 if %choix% EQU 8 goto 8
-if %choix% EQU 9 goto 9
 if %choix% EQU q goto 12
 if %choix% EQU Q goto 12
 :1
@@ -111,13 +116,10 @@ echo Le patch est maintenant copié sur le bureau de l'utilisateur
 ping localhost -n 1 >nul 
 goto menu
 :8
-REM 8 - Mappage UNC 
-echo %DATE:/=-% à %TIME::=-% - Mappage UNC >> "log_%ident%.txt"
-:9
 REM 9 - Logs pour escalade
 SYSTEMINFO /S %ident% 
 echo %DATE:/=-% à %TIME::=-% - SYSTEMINFO >> "log_%ident%.txt"
-REM SYSTEMINFO >> "log_%ident%.txt"
+SYSTEMINFO >> "log_%ident%.txt"
 goto menu
 :12
 @exit

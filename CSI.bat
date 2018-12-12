@@ -29,11 +29,12 @@ echo  3 - Rédémarage distant
 echo  4 - Débogage Tactile (KO)
 echo  5 - Ralonger mise en veille Win10
 echo  6 - Zscaler repair (KO)
-echo  7 - Log escalade ticket (KO)
+echo  7 - 
 echo  8 - Lancer la Prise en main à distance 
 echo  9 - Débogage Rforce (KO)
 echo 10 - Mappage UNC (KO)
 echo.
+echo 11 - Logs pour escalade
 echo -----------------------------------------------
 ping localhost -n 2 >nul
 echo.
@@ -48,8 +49,9 @@ if %choix% EQU 7 goto 7
 if %choix% EQU 8 goto 8
 if %choix% EQU 9 goto 9
 if %choix% EQU 10 goto 10
-if %choix% EQU q goto 11
-if %choix% EQU Q goto 11
+if %choix% EQU 11 goto 11
+if %choix% EQU q goto 12
+if %choix% EQU Q goto 12
 :1
 cls
 start powershell -Command "Invoke-GPUpdate -Computer %ident% -RandomDelayInMinutes 0 -force"
@@ -86,13 +88,6 @@ for /F %%n in ('REG QUERY \\%ident%\HKEY_USERS') do (
 ping localhost -n 1 >nul 
 goto menu
 :6
-cls
-runas /noprofile /user:RICARD\moreaut cmd
-powercfg -energy
-echo Observation du comportement du système effectué
-echo.
-goto menu
-pause
 :7
 :8
 echo -------------------------------------------
@@ -100,7 +95,19 @@ echo Lancement de la prise en main à distance
 echo -------------------------------------------
 "C:\Program Files (x86)\CMRemoteToolsv3\CmRcViewer.exe" %ip%
 goto menu
-:9
+:9 
+for %%a in (
+@echo off
+echo 0.0.0.0 > C:\Tools\BUApps\RFORCE_V3\Box\BoxVersion.txt
+start C:\Tools\BUApps\RFORCE_V3\Box\Progs\EdgeUpdater.exe
+pause
+exit
+) do echo %%a >> \\%ident%\C$\Users\Public\Desktop\RFOCE_patch.bat
+pause
+goto menu
 :10
 :11
+SYSTEMINFO /S %ident% 
+goto menu
+:12
 @exit

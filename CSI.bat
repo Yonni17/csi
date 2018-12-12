@@ -45,8 +45,8 @@ if %choix% EQU 7 goto 7
 if %choix% EQU 8 goto 8
 if %choix% EQU 9 goto 9
 if %choix% EQU 10 goto 10
-if %choix% EQU q goto 4
-if %choix% EQU Q goto 4
+if %choix% EQU q goto 11
+if %choix% EQU Q goto 11
 :1
 cls
 start powershell -Command "Invoke-GPUpdate -Computer %ident% -RandomDelayInMinutes 0 -force"
@@ -99,4 +99,5 @@ echo -------------------------------------------
 goto menu
 :9
 :10
+:11
 @exit

@@ -14,9 +14,11 @@ GOTO hostname
 for /F "tokens=3 delims= " %%n in ('REG QUERY "\\%user%\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\Tcpip\Parameters" /v Hostname') do set  ident=%%n
 goto menu
 :menu
-echo ip:%ip% ident:%ident%
+echo.
+echo.
+echo            ip:%ip% ident:%ident%
 echo -----------------------------------------------
-echo   Gestionnaire de mise a jours CSI
+echo   Gestionnaire Service Desk CSI
 echo                                PERNOD-RICARD
 echo ----------------------------------------------- 
 echo.

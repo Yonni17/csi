@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 > nul
-color 9F
-set /p user=Nom de la machine ? ou ip ?
+color F0
+set /p user=Merci de renseigner l'ip ou l'identifiant de la machine : 
 echo %user%|findstr /r "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"
 if NOT errorlevel 1 GOTO ip
 for /F "tokens=2 delims= " %%i in ('"nslookup %user% | find "Address" | more /E +1"') do set ip=%%i

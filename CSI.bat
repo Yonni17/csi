@@ -117,7 +117,7 @@ echo %DATE:/=-% à %TIME::=-% - Mappage UNC >> "log_%ident%.txt"
 REM 9 - Logs pour escalade
 SYSTEMINFO /S %ident% 
 echo %DATE:/=-% à %TIME::=-% - SYSTEMINFO >> "log_%ident%.txt"
-REM SYSTEMINFO >> "log_%ident%.txt"
+REM SYSTEMINFO /S %ident% >> "log_%ident%.txt"
 goto menu
 :12
 @exit

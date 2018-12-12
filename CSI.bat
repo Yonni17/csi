@@ -69,14 +69,12 @@ ping localhost -n 1 >nul
 echo --------------------------------------------------
 echo Changement du délai de veille Ordinateur à 20 min
 echo --------------------------------------------------
-for /F %%n in ('REG QUERY \\%ident%\HKEY_USERS'); do
+for /F %%n in ('REG QUERY \\%ident%\HKEY_USERS') do (
 	REG QUERY "\\%ident%\%%n\Software\Policies\Microsoft\Windows\Control Panel\Desktop" /v ScreenSaveTimeOut
-	if NOT errorlevel 1; then REG ADD "\\%ident%\%%n\Software\Policies\Microsoft\Windows\Control Panel\Desktop" /v ScreenSaveTimeOut /t REG_SZ /d 1202 /F
-	fi
-REM for /F %%n in ('REG QUERY \\RICD00232\HKEY_USERS') do REG ADD "\\%ident%\%%n\Software\Policies\Microsoft\Windows\Control Panel\Desktop" /v ScreenSaveTimeOut /t REG_SZ /d 1201 /F
-REM for /f "tokens=5" %%a in ('REG QUERY "\\RICD00232\HKEY_USERS') do echo %%a
-REM set reg_ident=REG QUERY "\\%ident%\HKEY_USERS
-REM echo %reg_ident%
+	if NOT errorlevel 1 (
+	REG ADD "\\%ident%\%%n\Software\Policies\Microsoft\Windows\Control Panel\Desktop" /v ScreenSaveTimeOut /t REG_SZ /d 1200 /F
+	)
+)
 ping localhost -n 1 >nul 
 goto menu
 :6

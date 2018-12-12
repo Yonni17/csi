@@ -26,15 +26,13 @@ echo.
 echo  1 - Débogage de la stratégie de groupe
 echo  2 - Arret du processus MS Outlook
 echo  3 - Rédémarage distant
-echo  4 - Débogage Tactile (KO)
-echo  5 - Ralonger mise en veille Win10
-echo  6 - Zscaler repair (KO)
-echo  7 - Ouvrir fenetre c$
-echo  8 - Lancer la Prise en main à distance 
-echo  9 - Débogage Rforce (KO)
-echo 10 - Mappage UNC (KO)
+echo  4 - Ralonger mise en veille Win10
+echo  5 - Ouvrir fenetre c$
+echo  6 - Lancer la Prise en main à distance 
+echo  7 - Débogage Rforce
+echo  8 - Mappage UNC (KO)
 echo.
-echo 11 - Logs pour escalade
+echo  9 - Logs pour escalade
 echo -----------------------------------------------
 ping localhost -n 2 >nul
 echo.
@@ -48,11 +46,10 @@ if %choix% EQU 6 goto 6
 if %choix% EQU 7 goto 7
 if %choix% EQU 8 goto 8
 if %choix% EQU 9 goto 9
-if %choix% EQU 10 goto 10
-if %choix% EQU 11 goto 11
 if %choix% EQU q goto 12
 if %choix% EQU Q goto 12
 :1
+REM 1 - Débogage de la stratégie de groupe
 echo %DATE:/=-% à %TIME::=-% - Débogage de la stratégie de groupe >> "log_%ident%.txt"
 cls
 start powershell -Command "Invoke-GPUpdate -Computer %ident% -RandomDelayInMinutes 0 -force"
@@ -63,18 +60,19 @@ echo.
 ping localhost -n 1 >nul
 goto menu
 :2
+REM 2 - Arret du processus MS Outlook
 echo %DATE:/=-% à %TIME::=-% - Arret du processus MS Outlook >> "log_%ident%.txt"
 cls
 echo Fermeture de Outlook
 taskkill /s %ip% /IM OUTLOOK.EXE
 goto menu
 :3
+REM 3 - Rédémarage distant
 echo %DATE:/=-% à %TIME::=-% - Rédémarage distant >> "log_%ident%.txt"
 shutdown -r -t 10 -m  \\%ip%
 goto menu
 :4
-echo %DATE:/=-% à %TIME::=-% - Débogage Tactile (KO) >> "log_%ident%.txt"
-:5
+REM 4 - Ralonger mise en veille Win10
 echo %DATE:/=-% à %TIME::=-% - Ralonger mise en veille Win10 >> "log_%ident%.txt"
 echo --------------------------
 echo Changement de l'atribut 
@@ -92,33 +90,31 @@ for /F %%n in ('REG QUERY \\%ident%\HKEY_USERS') do (
 )
 ping localhost -n 1 >nul 
 goto menu
-:6
-echo %DATE:/=-% à %TIME::=-% - Zscaler repair >> "log_%ident%.txt"
-:7
+:5
+REM 5 - Ouvrir fenetre c$
 echo %DATE:/=-% à %TIME::=-% - Ouverture fenetre c$ >> "log_%ident%.txt"
 explorer \\%ident%\c$\
 goto menu
-:8
+:6
+REM 6 - Lancer la Prise en main à distance
 echo %DATE:/=-% à %TIME::=-% - Lancer la Prise en main à distance >> "log_%ident%.txt"
 echo -------------------------------------------
 echo Lancement de la prise en main à distance
 echo -------------------------------------------
 "C:\Program Files (x86)\CMRemoteToolsv3\CmRcViewer.exe" %ip%
 goto menu
-:9
+:7
+REM 7 - Débogage Rforce
 echo %DATE:/=-% à %TIME::=-% - Débogage Rforce >> "log_%ident%.txt"
-for %%a in (
-@echo off
-echo 0.0.0.0 > C:\Tools\BUApps\RFORCE_V3\Box\BoxVersion.txt
-start C:\Tools\BUApps\RFORCE_V3\Box\Progs\EdgeUpdater.exe
-pause
-exit
-) do echo %%a >> \\%ident%\C$\Users\Public\Desktop\RFOCE_patch.bat
-pause
+xcopy /s "Rforce.bat" "\\%ident%\C$\Users\Public\Desktop"
+echo Le patch est maintenant copié sur le bureau de l'utilisateur
+ping localhost -n 1 >nul 
 goto menu
-:10
+:8
+REM 8 - Mappage UNC 
 echo %DATE:/=-% à %TIME::=-% - Mappage UNC >> "log_%ident%.txt"
-:11
+:9
+REM 9 - Logs pour escalade
 SYSTEMINFO /S %ident% 
 echo %DATE:/=-% à %TIME::=-% - SYSTEMINFO >> "log_%ident%.txt"
 REM SYSTEMINFO >> "log_%ident%.txt"

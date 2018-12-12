@@ -128,9 +128,9 @@ ping localhost -n 1 >nul
 goto menu
 :8
 REM 9 - Logs pour escalade
-SYSTEMINFO /S %ident% 
 echo %DATE:/=-% à %TIME::=-% - SYSTEMINFO >> "log_%ident%.txt"
-SYSTEMINFO >> "log_%ident%.txt"
+SYSTEMINFO /S %ident%
+SYSTEMINFO /S %ident% >> "log_%ident%.txt"
 echo --------------------------
 echo Fichier log sur le Bureau 
 echo --------------------------

@@ -55,6 +55,7 @@ if %choix% EQU 5 goto 5
 if %choix% EQU 6 goto 6
 if %choix% EQU 7 goto 7
 if %choix% EQU 8 goto 8
+if %choix% EQU 69 goto 69
 if %choix% EQU q goto 12
 if %choix% EQU Q goto 12
 :1
@@ -130,10 +131,13 @@ goto menu
 REM 9 - Logs pour escalade
 SYSTEMINFO /S %ident% 
 echo %DATE:/=-% à %TIME::=-% - SYSTEMINFO >> "log_%ident%.txt"
-SYSTEMINFO >> "log_%ident%.txt"
+SYSTEMINFO /S %ident% >> "log_%ident%.txt"
 echo --------------------------
 echo Fichier log sur le Bureau 
 echo --------------------------
 goto menu
+:69
+start eastereeg.bat
+goto menu 
 :12
 @exit

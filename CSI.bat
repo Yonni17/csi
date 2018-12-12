@@ -13,6 +13,9 @@ set ident=%user%
 goto menu
 )
 :ip
+ping %user% -n 1 >nul
+cls
+if errorlevel 1 GOTO failident
 set ip=%user%
 GOTO hostname
 :hostname
@@ -71,6 +74,10 @@ echo %DATE:/=-% à %TIME::=-% - Arret du processus MS Outlook >> "log_%ident%.tx
 cls
 echo Fermeture de Outlook
 taskkill /s %ip% /IM OUTLOOK.EXE
+if errorlevel 1 goto menu
+echo ---------------------
+echo ----Outlook fermé---- 
+echo ---------------------
 goto menu
 :3
 REM 3 - Rédémarage distant
@@ -94,7 +101,10 @@ for /F %%n in ('REG QUERY \\%ident%\HKEY_USERS') do (
 	REG ADD "\\%ident%\%%n\Software\Policies\Microsoft\Windows\Control Panel\Desktop" /v ScreenSaveTimeOut /t REG_SZ /d 1200 /F
 	)
 )
-ping localhost -n 1 >nul 
+ping localhost -n 1 >nul
+echo ---------------------
+echo Changement effectué 
+echo ---------------------
 goto menu
 :5
 REM 5 - Ouvrir fenetre c$
@@ -121,6 +131,9 @@ REM 9 - Logs pour escalade
 SYSTEMINFO /S %ident% 
 echo %DATE:/=-% à %TIME::=-% - SYSTEMINFO >> "log_%ident%.txt"
 SYSTEMINFO >> "log_%ident%.txt"
+echo --------------------------
+echo Fichier log sur le Bureau 
+echo --------------------------
 goto menu
 :12
 @exit

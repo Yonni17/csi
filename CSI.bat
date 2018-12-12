@@ -1,13 +1,20 @@
 @echo off
 chcp 65001 > nul
 color 9F
-set /p ident=Nom de la machine ? ou ip ?
-echo %ident%|findstr /r "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"
-if NOT errorlevel 1 GOTO menu 
-for /F "tokens=2 delims= " %%i in ('"nslookup %ident% | find "Address" | more /E +1"') do set ip=%%i
-echo IP: %ip%
-REM HKEY_LOCAL_MACHINE-->SOFTWARE-->SYSTEM-->ControlSet001-->services-->Tcpip-->Parameters-->NV Hostname
+set /p user=Nom de la machine ? ou ip ?
+echo %user%|findstr /r "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"
+if NOT errorlevel 1 GOTO ip
+for /F "tokens=2 delims= " %%i in ('"nslookup %user% | find "Address" | more /E +1"') do set ip=%%i
+set ident=%user%
+goto menu
+:ip
+set ip=%user%
+GOTO hostname
+:hostname
+for /F "tokens=3 delims= " %%n in ('REG QUERY "\\%user%\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\Tcpip\Parameters" /v Hostname') do set  ident=%%n
+goto menu
 :menu
+echo ip:%ip% ident:%ident%
 echo -----------------------------------------------
 echo   Gestionnaire de mise a jours CSI
 echo                                PERNOD-RICARD

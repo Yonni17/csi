@@ -6,8 +6,9 @@ goto askuser
 set /p user=Merci de renseigner l'ip ou l'identifiant de la machine : 
 echo %user%|findstr /r "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"
 if NOT errorlevel 1 GOTO ip
+set ip=0
 for /F "tokens=2 delims= " %%i in ('"nslookup %user% | find "Address" | more /E +1"') do set ip=%%i
-if ip EQU 0 GOTO failident ELSE (
+if %ip% EQU 0 GOTO failident ELSE (
 set ident=%user%
 goto menu
 )

@@ -29,7 +29,7 @@ echo  3 - Rédémarage distant
 echo  4 - Débogage Tactile (KO)
 echo  5 - Ralonger mise en veille Win10
 echo  6 - Zscaler repair (KO)
-echo  7 - 
+echo  7 - Ouvrir fenetre c$
 echo  8 - Lancer la Prise en main à distance 
 echo  9 - Débogage Rforce (KO)
 echo 10 - Mappage UNC (KO)
@@ -37,7 +37,6 @@ echo.
 echo 11 - Logs pour escalade
 echo -----------------------------------------------
 ping localhost -n 2 >nul
-echo *** Machine %ident% le %DATE:/=-% à %TIME::=-% *** >> "log_%ident%.txt"
 echo.
 set /p choix=Choisir ou Q et presser ENTRÉE : 
 if %choix% EQU 1 goto 1
@@ -55,7 +54,6 @@ if %choix% EQU q goto 12
 if %choix% EQU Q goto 12
 :1
 echo %DATE:/=-% à %TIME::=-% - Débogage de la stratégie de groupe >> "log_%ident%.txt"
-echo. >> "log_%ident%.txt"
 cls
 start powershell -Command "Invoke-GPUpdate -Computer %ident% -RandomDelayInMinutes 0 -force"
 echo ----------------------------------------------------------------------------
@@ -66,22 +64,18 @@ ping localhost -n 1 >nul
 goto menu
 :2
 echo %DATE:/=-% à %TIME::=-% - Arret du processus MS Outlook >> "log_%ident%.txt"
-echo. >> "log_%ident%.txt"
 cls
 echo Fermeture de Outlook
 taskkill /s %ip% /IM OUTLOOK.EXE
 goto menu
 :3
 echo %DATE:/=-% à %TIME::=-% - Rédémarage distant >> "log_%ident%.txt"
-echo. >> "log_%ident%.txt"
 shutdown -r -t 10 -m  \\%ip%
 goto menu
 :4
 echo %DATE:/=-% à %TIME::=-% - Débogage Tactile (KO) >> "log_%ident%.txt"
-echo. >> "log_%ident%.txt"
 :5
 echo %DATE:/=-% à %TIME::=-% - Ralonger mise en veille Win10 >> "log_%ident%.txt"
-echo. >> "log_%ident%.txt"
 echo --------------------------
 echo Changement de l'atribut 
 echo --------------------------
@@ -100,11 +94,12 @@ ping localhost -n 1 >nul
 goto menu
 :6
 echo %DATE:/=-% à %TIME::=-% - Zscaler repair >> "log_%ident%.txt"
-echo. >> "log_%ident%.txt"
 :7
+echo %DATE:/=-% à %TIME::=-% - Ouverture fenetre c$ >> "log_%ident%.txt"
+explorer \\%ident%\c$\
+goto menu
 :8
 echo %DATE:/=-% à %TIME::=-% - Lancer la Prise en main à distance >> "log_%ident%.txt"
-echo. >> "log_%ident%.txt"
 echo -------------------------------------------
 echo Lancement de la prise en main à distance
 echo -------------------------------------------
@@ -112,7 +107,6 @@ echo -------------------------------------------
 goto menu
 :9
 echo %DATE:/=-% à %TIME::=-% - Débogage Rforce >> "log_%ident%.txt"
-echo. >> "log_%ident%.txt"
 for %%a in (
 @echo off
 echo 0.0.0.0 > C:\Tools\BUApps\RFORCE_V3\Box\BoxVersion.txt
@@ -124,12 +118,10 @@ pause
 goto menu
 :10
 echo %DATE:/=-% à %TIME::=-% - Mappage UNC >> "log_%ident%.txt"
-echo. >> "log_%ident%.txt"
 :11
 SYSTEMINFO /S %ident% 
 echo %DATE:/=-% à %TIME::=-% - SYSTEMINFO >> "log_%ident%.txt"
-SYSTEMINFO >> "log_%ident%.txt"
-echo. >> "log_%ident%.txt"
+REM SYSTEMINFO >> "log_%ident%.txt"
 goto menu
 :12
 @exit

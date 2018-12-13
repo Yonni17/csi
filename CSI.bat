@@ -36,9 +36,9 @@ echo -----------------------------------------------
 echo.
 echo  1 - Débogage de la stratégie de groupe
 echo  2 - Arret du processus MS Outlook
-echo  3 - Rédémarage distant
+echo  3 - Redémarage distant
 echo  4 - Ralonger mise en veille Win10
-echo  5 - Ouvrir fenetre c$
+echo  5 - Ouvrir fenêtre c$
 echo  6 - Lancer la Prise en main à distance 
 echo  7 - Débogage Rforce
 echo.
@@ -46,7 +46,7 @@ echo  8 - Logs pour escalade
 echo -----------------------------------------------
 ping localhost -n 2 >nul
 echo.
-set /p choix=Choisir ou Q et presser ENTRÉE : 
+set /p choix=1 à 8: Choisir option - Q: Quit - N: New Computeur : 
 if %choix% EQU 1 goto 1
 if %choix% EQU 2 goto 2
 if %choix% EQU 3 goto 3
@@ -56,6 +56,8 @@ if %choix% EQU 6 goto 6
 if %choix% EQU 7 goto 7
 if %choix% EQU 8 goto 8
 if %choix% EQU 69 goto 69
+if %choix% EQU n goto askuser
+if %choix% EQU N goto askuser
 if %choix% EQU q goto 12
 if %choix% EQU Q goto 12
 :1
@@ -118,7 +120,8 @@ echo %DATE:/=-% à %TIME::=-% - Lancer la Prise en main à distance >> "log_%ide
 echo -------------------------------------------
 echo Lancement de la prise en main à distance
 echo -------------------------------------------
-"C:\Program Files (x86)\CMRemoteToolsv3\CmRcViewer.exe" %ip%
+start "" "C:\Program Files (x86)\CMRemoteToolsv3\CmRcViewer.exe" %ip%
+if errorlevel 1 start "" "C:\WINDOWS\Ricard\Tools\CMRemoteToolsv3\CmRcViewer.exe " %ip%
 goto menu
 :7
 REM 7 - Débogage Rforce
@@ -137,7 +140,57 @@ echo Fichier log sur le Bureau
 echo --------------------------
 goto menu
 :69
-start eastereeg.bat
+echo sssssssssssssssydddmmmdmmmmmmddhhhhhyyhhmmmmmmdhysydmmddyddhhdmmmmmmmmmmmmddmmmmmmmmddhhhhhhhhddhhdh
+echo ssssssssssssssyhddmmmdmmmmmmmddhhhyyyyhdddmmmmmdysydddmdmdhddhddddddmmmmddddddmmmmmmddddhhhhhhddhhhd
+echo sssssssssssssyhddmmddmmmmmmdddhhhyyhhdmmmmmmmmmdyoshdddddddyyhhddddddmmdddmddmmmmmmmmdddhhhhhhddhhdd
+echo sssssssssssyyddddmdddmmmmmdddddyyhhdmmmmmmmddddhyssyhddddhhhhhhdddddddddmmmmmmmmmmmmmmddhhhhhhdhhhdh
+echo ssssssssssyyhddmmdddmmmmdddddhhyhdddmdhhdddddddhyyyyhhhyyysyhhhhhddddmmmmmmmmmmdddmmmdddhhhhhhdhhhhd
+echo sssssssssyyhdddddddmmmdddddddhhyhdhsoosyhyhhhyhhhysyyysssssyyyhyyyhhdmmmmmmmmmmdddddmdddhhhhhhhhhhdh
+echo ssssssssyyhdddddddmmmmdddddddhyddho+oyysssssyyyyoossoooooosssyyhyyyhhdmmmmmmmmmmdddddmdddhhhhhhhhhhh
+echo ssssssyyyhdddddddmmmmmddddddddmdysosysooossssooosoo+ooooooosssyyyyhhhhdddddmmmmmmdddddmmddhhhhhhhhhh
+echo sssssyyyhhddddmmmmmmmdhddmddddhyssso++ossss+:/+++++//++++++ooosssyyhhhhhdddddddhddhhhhhdddhhhhhhhhhh
+echo sssssyyhhdddddddmmmmdhhdmddhdhyyyso++ssss+////////////////++++oosssyyyyhhddddddhhddddhyhhhhhhhhhhhhh
+echo ssyyyhhhdddddddmmmmdmhhddddhhsyyso+osyso+/+///////////////++++oooossyyyyhdmmmmmmmmmdddhyhhhyyyhhhhhh
+echo yyyhhhdddddddddmddmmdhdddhhhsyys++ssssoo++////////////////++++oooosssyyhhdmmmmmmmmmmddhhhhyhhhhhhhhh
+echo yhhhhddddddhhdddddmdddddhhhysssoossssso+//////////////////+++++oooosssyhhdmmmmmmmmmmddhyhhhhhhhhhhhh
+echo hhhhhddddhhhhhhhddddmmmmdyhsyssossssso+/////////////////////+++oooosssyhhhdmmmmmmmddddhhyyhhhhhyyyyy
+echo hhhhhdddyyyyhhhhhhddmmdddhhyyyssssso+////////////////////////+++oosssyhhhhdmmmmmmddmdddhyhhhyhhyyyyy
+echo hyhhddyyyyhhhhhhyhdddddddhhhhysysso+////////////////////////++osyyhhddddhhdmmmmmmdddddddhhhhhyhhyyyy
+echo yyhdhyyhddysyhhyhhhhhhhhhddhddddhyo+//////////////////////+osyhdddhhhhddhhhmmmmmmmmdhhhhhhhhyhhyhhyh
+echo yhdhyydddhysyyyyssyyyyyhhddhhhhhhhhhyso+///////////////+osyyhhhyssssyyhhhhhdmmNmmmdddhhhhhhhhyyhhhyh
+echo yhhyhddddhyyyyysssssyyhhhhysssyssyyyyyysso++////////++ossyyhhhhhhdddhdhyyhhhdmNmmmdmdhyhhhhhhhhhhhhh
+echo yyyhddddhhyyysssssyhddhhhhyyyhdmddddhhyyssoo++++//++oosyyhmNmmdyydmmdhyyyhhhdmmddmmdmdhhhyhhhhhhhhhy
+echo yyhddddhyyhyysyyydmNmdhhhyyyhdmmdmmmdsosyyyys++///+osyhhhhhhys++ohdhysssyyyhmNmdmmmdmddhhhhhhhhhhhhh
+echo yyhdddhyyhyyssyhmmmNmdhhyso+oshdhyys+:/+sssss+////++syysssooooossyyssooosyyhmNmmmmdmmddddhhhhhhhhhyy
+echo yhdddhyyyyysyshdmmmmmmhyo++//+osssssooooo+++++/:::/+ooo+++++++oooo+++ooosyyhNNmmmddmddhhddhhhhhhhhhy
+echo yhddhhyyysssyyhmmmmmmmdyo++//////++++++++///++/:-:/+o+++///////+++++++osyyhdNmmmmdmmddhhddhhhhhhhhhh
+echo yydhhhyysyysshhmmmmmmNmys++/////////////////++/:-:++oo+++//////+/++++ossyyddmmmmmmdddhhyhhhhhhhhhhhh
+echo syhhhyyyyhyyshhmmmmmNNmdso++///////////////+++/:-:++ooo+++//////++++oosyyddmmmmmmmdddhhyyhhyyyhhhhhh
+echo ssyhhyyyhhsysyhhmmNmNNmmhso+++////////////+++//:::+++sso++/////+++oossyyydmmNmmmmmhdhhyyyyyyhhhhhhhh
+echo yyyhhyyyyhsyyyyydmmmmNNNmysoo++//////////++o+//:-:/++oso+/////+++oossyyyhmdNmmmmmmddhhhyyyyyhhhhhhhh
+echo yyyhhhyyhyyyyyysydmmmmmNmdyssoo++/////////++++/:::/+oosoo////+++oossyyyyddmNmmmmddhhhhyyhdyyhhhhhhhh
+echo ysyhhhhhyyysyyyyshmmmmmmmmhyssooo+++///////+osso+++syssso///+++oosssyyyymmdNmhmdhhhhhyhhhhdyyhhhhhhh
+echo yssyyhhhyyyhsyyyyydmdddmdddysyssoo+++///////ossssossyyys+///+++oossyyyydNdyNmhmyyhdhhhdhhddyhhhhhhhh
+echo ysyyyyhhyyyhhsssyyydmddmmdddyssssoo++///////////oyyssso+//+++ooosssyyyhNNdyNmddhyhdhhhdddhhhhdhhhhhh
+echo yyhhyhhhhhhhhhysssyydmddmmmhmsossooo++++/////////+++++++++++ooosssssyymNNhyNmdhhyddhhdddddhhhddhhhhd
+echo yyhhhhhhyyyyhddhyssssddddmdymmsooooo++++++++oosssossssssssssooooosssyhmNmyhmddhyhhdhhdhdddhhhdddhhdd
+echo yyhhhddhysssyhhhhysssydddmdsmmmsoooo++ooosyyyyyyyyyyyyyyyhyssoooosssyhmNmsdddhyyhdhhhhhddddhdddddddd
+echo hhhhhdddhsssyhhhdhyssshdddhydmmmyoooooooooossssoossssssyssoooooosssyyhmNNmmdhyshdhyhhhdmdddddddddddd
+echo hhyhddhhhhhysssyhhhyysydhdsdmmNNNdsoo++++oooosssossssssooossooosssyyyhmmmmmdhyhddhyhdhdmmddddddddddd
+echo hhhhhhhddhhhhyysyhhyysshhddmmmNNNNmhsoo++++++ooossssssssssoooosssyyyyhdmmmmddddddhhdddmmmddddddddddd
+echo hhhhhdddhhdddddhhhhhysshhmmmmmNNNNNmdyso+++++/++++ooooooooooossssyyyyhdmmmmmmdmmmhhddddmmddddddddddh
+echo hhdhhhhhhdddddhhddhhhyyydmmmmmmmNNNmdhhyso+++/////////++ooossssssyyyyyhddmmNmmmmmhhddddmmddddddddddd
+echo syhyyhdddddddhhddhhddyyhmmmmmmmNmNNmdhhyyyysoo++++++++ooossssssssyyyyyhhdmmmmmmmmdhddddmmddddddddddd
+echo yyhhddddddddyyddhhddyhhdmmmmmmmNmNmddhhhyyyyyyyssssssssssssssssssyyyyyyhhdmmmmmNmmdhddddmddddddddddd
+echo yyyhddddddhyhddyhhhyhyhdmmmmmmNNNNhyhhhhyyyyyyyyyssssssssssssssssyyyyyyyhhddmmmmmmmhhddddddddddddhdd
+echo yyyhdddhhyyddhhhhyhhyhddmmmmmmNNmhysyyhhhyyyyyyyyssssssssssssssssyyyyyyyyhhhddddddddhhhhdddddddddddh
+echo yyyyhhyyyhdhhhhhyhyyyhdmmmmmmmmmhysssssyhhyyyyysssssssssssssssssssyyyyyyyyyhysssssssyyyyhhhhhdddddhh
+echo yysyyyyhhhhhhyyhhyyhdmmmdmmmmmdyyssssssssyyyyyyssssssssssssssssyyyyyyyyysssooo+oosoossyhyyyyyyhyhhhd
+echo hhhhhdddddhyyhhyyhhdmmddmdddhhysssssssooosyssyyssssssssssyyysyyyyyyyyssoooooo+++ooooooosyhhyyyyyyyhh
+echo ddhhddddhyyyyyhhhdddddhhhhyhhysssoosssoooossoossyyyyyyyyyyyyyyyyyyyssoooo++++++++oooooooossyysyyyyyy
+echo ssyyyssyyyyyyyyssssyhhhsooohsssooosssoooooosso++osyyyyyyyyyyyyyyyysoooo+++++++o++o+oo+oooo+++ooooooo
+echo ++oossssssssssyyyhhyyso+++++ssooosssooooooosso++++osyyyyyyyyyyyso++oo++/++++++o++++o++++++++++++++++
+ping localhost -n 4 > nul 
 goto menu 
 :12
 @exit
